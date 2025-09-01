@@ -10,13 +10,13 @@ POST http://localhost:4000/users/
 Content-Type: application/json
 
 {
-    "name": "bryan2",
-    "email": "bryan2@gmail.com",
+    "name": "bryan3",
+    "email": "email@gmail.com",
     "password": "123456"
 }
 
 ###UPDATE USER
-PUT http://localhost:4000/users/68b611b726740e7408313a4f
+PUT http://localhost:4000/users/68b61f0c169b46132dd2a374
 Content-Type: application/json
 
 {
@@ -26,4 +26,4 @@ Content-Type: application/json
 }
 
 ###DELETE USER
-DELETE http://localhost:4000/users/68b611b726740e7408313a4f
+DELETE http://localhost:4000/users/68b618afad86d72136179c8c

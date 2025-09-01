@@ -21,10 +21,6 @@ export default class UserModel {
     return await User.findById(id)
   }
 
-  static async getUserByEmail (email) {
-    return await User.findOne({ email })
-  }
-
   static async getAllUsers () {
     return await User.find()
   }
