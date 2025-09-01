@@ -5,10 +5,7 @@ const mongoURI = 'mongodb://127.0.0.1:27017/hotelDB'
 
 const connectDB = async () => {
   try {
-    await connect(mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    })
+    await connect(mongoURI)
     console.log('✅ Conectado a MongoDB LOCAL')
   } catch (err) {
     console.error('❌ Error de conexión a MongoDB:', err.message)

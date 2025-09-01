@@ -1,0 +1,29 @@
+###GET ALL USERS
+GET http://localhost:4000/users/
+
+###GET USER BY ID
+GET http://localhost:4000/users/68b611b726740e7408313a4f
+
+
+###CREATE NEW USER
+POST http://localhost:4000/users/
+Content-Type: application/json
+
+{
+    "name": "bryan2",
+    "email": "bryan2@gmail.com",
+    "password": "123456"
+}
+
+###UPDATE USER
+PUT http://localhost:4000/users/68b611b726740e7408313a4f
+Content-Type: application/json
+
+{
+    "name": "bryanUpdated",
+    "email": "bryan2@gmail.com",
+    "password": "123456"
+}
+
+###DELETE USER
+DELETE http://localhost:4000/users/68b611b726740e7408313a4f
