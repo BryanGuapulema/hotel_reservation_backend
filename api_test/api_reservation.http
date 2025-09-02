@@ -1,0 +1,35 @@
+###GET ALL RESERVATIONS
+GET http://localhost:4000/reservations
+
+###GET RESERVATION BY ID
+GET http://localhost:4000/reservations/68b6722e82e4b9a7db440739
+
+
+###CREATE NEW RESERVATION
+POST http://localhost:4000/reservations
+Content-Type: application/json
+
+{
+  "user": "68b6113e26740e7408313a4b",
+  "room": "68b631056d66f7a478f0a13c",
+  "checkInDate": "2025-09-10",
+  "checkOutDate": "2025-09-15",
+  "status": "confirmed"
+}
+
+
+###UPDATE RESERVATION
+PUT http://localhost:4000/reservations/68b6722e82e4b9a7db440739
+Content-Type: application/json
+
+{
+  "user": "68b6113e26740e7408313a4b",
+  "room": "68b631056d66f7a478f0a13c",
+  "checkInDate": "2025-09-10",
+  "checkOutDate": "2025-09-20",
+  "status": "confirmed"
+}
+
+
+###DELETE RESERVATION
+DELETE http://localhost:4000/reservations/68b6722e82e4b9a7db440739
