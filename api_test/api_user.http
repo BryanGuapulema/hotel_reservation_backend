@@ -2,7 +2,7 @@
 GET http://localhost:4000/users/
 
 ###GET USER BY ID
-GET http://localhost:4000/users/68b611b726740e7408313a4f
+GET http://localhost:4000/users/68b6113e26740e7408313a4b
 
 
 ###CREATE NEW USER
@@ -10,18 +10,18 @@ POST http://localhost:4000/users/
 Content-Type: application/json
 
 {
-    "name": "bryan3",
-    "email": "email@gmail.com",
+    "username": "bryan9",
+    "email": "email9@gmail.com",
     "password": "123456"
 }
 
 ###UPDATE USER
-PUT http://localhost:4000/users/68b61f0c169b46132dd2a374
+PUT http://localhost:4000/users/68b6113e26740e7408313a4b
 Content-Type: application/json
 
 {
-    "name": "bryanUpdated",
-    "email": "bryan2@gmail.com",
+    "username": "bryan5",
+    "email": "email2@gmail.com",
     "password": "123456"
 }
 

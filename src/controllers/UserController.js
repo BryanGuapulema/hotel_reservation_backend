@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt'
+
 import UserModel from '../models/UserModel.js'
 import { validateUser } from '../schemas/userSchema.js'
 
@@ -10,7 +12,22 @@ export default class UserController {
         return res.status(400).json({ error: JSON.parse(result.error) })
       }
 
-      const newUser = await UserModel.createUser(result.data)
+      const { username, email, password } = result.data
+
+      const isUsernameUsed = await UserModel.isUsernameUsed(username)
+      if (isUsernameUsed) return res.status(400).json({ error: 'User already exists' })
+
+      const isEmailUsed = await UserModel.isEmailUsed(email)
+      if (isEmailUsed) return res.status(400).json({ error: 'Email is already in use' })
+
+      const hashedPassword = await bcrypt.hash(password, 10)
+
+      const data = {
+        ...result.data,
+        password: hashedPassword
+      }
+
+      const newUser = await UserModel.createUser(data)
       return res.status(201).json(newUser)
     } catch (error) {
       res.status(400).json({ error: error.message })
@@ -44,7 +61,23 @@ export default class UserController {
       }
 
       const { id } = req.params
-      const userUpdated = await UserModel.updateUser(id, result.data)
+
+      const { username, email, password } = result.data
+
+      const isUsernameUsed = await UserModel.isUsernameUsed(username)
+      if (isUsernameUsed) return res.status(400).json({ error: 'User already exists' })
+
+      const isEmailUsed = await UserModel.isEmailUsed(email)
+      if (isEmailUsed) return res.status(400).json({ error: 'Email is already in use' })
+
+      const hashedPassword = await bcrypt.hash(password, 10)
+
+      const data = {
+        ...result.data,
+        password: hashedPassword
+      }
+
+      const userUpdated = await UserModel.updateUser(id, data)
 
       if (!userUpdated) return res.status(404).json({ error: 'User not found' })
       return res.json(userUpdated)

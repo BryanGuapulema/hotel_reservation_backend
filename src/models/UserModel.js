@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const userSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true, trim: true },
+    username: { type: String, required: true, unique: true, trim: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     password: { type: String, required: true },
     role: { type: String, enum: ['client', 'admin'], default: 'client' }
@@ -31,5 +31,15 @@ export default class UserModel {
 
   static async deleteUser (id) {
     return await User.findByIdAndDelete(id)
+  }
+
+  static async isUsernameUsed (username) {
+    const isUsernameUsed = await User.findOne({ username })
+    return !!isUsernameUsed
+  }
+
+  static async isEmailUsed (email) {
+    const isEmailUsed = await User.findOne({ email })
+    return !!isEmailUsed
   }
 }
