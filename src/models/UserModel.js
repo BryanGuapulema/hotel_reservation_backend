@@ -33,6 +33,11 @@ export default class UserModel {
     return await User.findByIdAndDelete(id)
   }
 
+  static async findByUsername (username) {
+    const user = await User.findOne({ username })
+    return user
+  }
+
   static async isUsernameUsed (username) {
     const isUsernameUsed = await User.findOne({ username })
     return !!isUsernameUsed
