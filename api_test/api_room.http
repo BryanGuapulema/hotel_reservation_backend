@@ -1,0 +1,33 @@
+###GET ALL ROOMS
+GET http://localhost:4000/rooms
+
+###GET ROOM BY ID
+GET http://localhost:4000/rooms/68b631056d66f7a478f0a13c
+
+
+###CREATE NEW ROOM
+POST http://localhost:4000/rooms
+Content-Type: application/json
+
+{
+  "number": 102,
+  "type": "double",
+  "capacity": 5,
+  "pricePerNight": 80,
+  "status": "available"
+}
+
+###UPDATE ROOM
+PUT http://localhost:4000/rooms/68b631056d66f7a478f0a135
+Content-Type: application/json
+
+{
+  "number": 102,
+  "type": "double",
+  "capacity": 5,
+  "pricePerNight": 100,
+  "status": "available"
+}
+
+###DELETE ROOM
+DELETE http://localhost:4000/rooms/68b6304d1b646f5ede9b2095
