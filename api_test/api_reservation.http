@@ -13,7 +13,7 @@ Content-Type: application/json
   "user": "68b6113e26740e7408313a4b",
   "room": "68b631056d66f7a478f0a13c",
   "checkInDate": "2025-09-10",
-  "checkOutDate": "2025-09-15",
+  "checkOutDate": "2025-09-11",
   "status": "confirmed"
 }
 

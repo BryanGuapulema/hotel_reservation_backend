@@ -1,4 +1,6 @@
 import { ReservationModel } from '../models/ReservationModel.js'
+import UserModel from '../models/UserModel.js'
+import { RoomModel } from '../models/RoomModel.js'
 import { validateReservation } from '../schemas/reservationSchema.js'
 
 export class ReservationController {
@@ -30,6 +32,18 @@ export class ReservationController {
 
       if (!result.success) return res.status(400).json({ error: JSON.parse(result.error) })
 
+      // Validar existencia real de user y room
+      const { user, room } = result.data
+      const existingUser = await UserModel.getUserById(user)
+      if (!existingUser) {
+        return res.status(404).json({ error: 'User not found' })
+      }
+
+      const existingRoom = await RoomModel.getRoomById(room)
+      if (!existingRoom) {
+        return res.status(404).json({ error: 'Room not found' })
+      }
+
       const newReservation = await ReservationModel.createReservation(result.data)
       return res.status(201).json(newReservation)
     } catch (error) {
@@ -43,6 +57,18 @@ export class ReservationController {
       const result = validateReservation(req.body)
 
       if (!result.success) return res.status(400).json({ error: JSON.parse(result.error) })
+
+      // Validar existencia real de user y room
+      const { user, room } = result.data
+      const existingUser = await UserModel.getUserById(user)
+      if (!existingUser) {
+        return res.status(404).json({ error: 'User not found' })
+      }
+
+      const existingRoom = await RoomModel.getRoomById(room)
+      if (!existingRoom) {
+        return res.status(404).json({ error: 'Room not found' })
+      }
 
       const reservationUpdated = await ReservationModel.updateReservation(id, result.data)
 
