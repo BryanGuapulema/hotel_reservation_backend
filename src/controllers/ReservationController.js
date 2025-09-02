@@ -1,7 +1,7 @@
 import { ReservationModel } from '../models/ReservationModel.js'
 import UserModel from '../models/UserModel.js'
 import { RoomModel } from '../models/RoomModel.js'
-import { validateReservation } from '../schemas/reservationSchema.js'
+import { validatePartialReservation, validateReservation } from '../schemas/reservationSchema.js'
 
 export class ReservationController {
   static async getAllReservations (req, res) {
@@ -55,6 +55,34 @@ export class ReservationController {
     try {
       const { id } = req.params
       const result = validateReservation(req.body)
+
+      if (!result.success) return res.status(400).json({ error: JSON.parse(result.error) })
+
+      // Validar existencia real de user y room
+      const { user, room } = result.data
+      const existingUser = await UserModel.getUserById(user)
+      if (!existingUser) {
+        return res.status(404).json({ error: 'User not found' })
+      }
+
+      const existingRoom = await RoomModel.getRoomById(room)
+      if (!existingRoom) {
+        return res.status(404).json({ error: 'Room not found' })
+      }
+
+      const reservationUpdated = await ReservationModel.updateReservation(id, result.data)
+
+      if (!reservationUpdated) return res.status(404).json({ error: 'Reservation not found' })
+      return res.json(reservationUpdated)
+    } catch (error) {
+      return res.status(500).json({ message: error.message })
+    }
+  }
+
+  static async updatePartialReservation (req, res) {
+    try {
+      const { id } = req.params
+      const result = validatePartialReservation(req.body)
 
       if (!result.success) return res.status(400).json({ error: JSON.parse(result.error) })
 

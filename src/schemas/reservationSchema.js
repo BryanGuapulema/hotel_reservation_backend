@@ -18,3 +18,7 @@ const reservationSchema = z.object({
 export function validateReservation (object) {
   return reservationSchema.safeParse(object)
 }
+
+export function validatePartialReservation (object) {
+  return reservationSchema.partial().safeParse(object)
+}
