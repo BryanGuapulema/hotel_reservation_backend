@@ -35,11 +35,13 @@ const Reservation = mongoose.model('Reservation', reservationSchema)
 
 export class ReservationModel {
   static async getAllReservations () {
-    return await Reservation.find()
+    return await Reservation.find().populate('user', 'name')
+      .populate('room', 'number')
   }
 
   static async getReservationById (id) {
-    return await Reservation.findById(id)
+    return await Reservation.findById(id).populate('user', 'name')
+      .populate('room', 'number')
   }
 
   static async createReservation (input) {
@@ -49,10 +51,12 @@ export class ReservationModel {
   static async updateReservation (id, input) {
     return await Reservation.findByIdAndUpdate(id, input, {
       new: true
-    })
+    }).populate('user', 'name')
+      .populate('room', 'number')
   }
 
   static async deleteReservation (id) {
-    return await Reservation.findByIdAndDelete(id)
+    return await Reservation.findByIdAndDelete(id).populate('user', 'name')
+      .populate('room', 'number')
   }
 }
