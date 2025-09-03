@@ -1,6 +1,13 @@
 import UserModel from '../models/UserModel.js'
-import bcrypt from 'bcrypt'
 import { validatePartialUser, validateUser } from '../schemas/userSchema.js'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
+
+dotenv.config()
+
+const JWT_SECRET = process.env.JWT_SECRET
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN
 
 export class AuthController {
   static async register (req, res) {
@@ -54,9 +61,33 @@ export class AuthController {
       const isValidPassword = await bcrypt.compare(password, user.password)
       if (!isValidPassword) return res.status(400).json({ error: 'password is invalid' })
 
-      return res.status(201).json(user)
+      // JWT creation
+      const token = jwt.sign(
+        { id: user._id, username: user.username, role: user.role },
+        JWT_SECRET,
+        {
+          expiresIn: JWT_EXPIRES_IN
+        })
+
+      // jwt sent by a cookie
+      res.cookie('access_token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 1000 * 60 * 60
+      }).json(user)
     } catch (error) {
       res.status(400).json({ error: error.message })
     }
+  }
+
+  static async logout (req, res) {
+    res.clearCookie('access_token').json({ message: 'Log out succesful' })
+  }
+
+  static async me (req, res) {
+    const { user } = req.session
+
+    res.json(user)
   }
 }
